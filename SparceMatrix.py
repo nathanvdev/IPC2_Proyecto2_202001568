@@ -6,6 +6,7 @@ class MatrixNode():
         self.Character = Character
         self.Xcord = x  
         self.Ycord = y  
+        self.Health = None
         self.up: MatrixNode = None
         self.down: MatrixNode = None
         self.right: MatrixNode = None  
@@ -14,21 +15,21 @@ class MatrixNode():
 
 class SparceMatrix():
     def __init__(self):
-        self.Row = HeaderList('Row')
-        self.Column = HeaderList('Column')
+        self.Rows = HeaderList('Rows')
+        self.Columns = HeaderList('Columns')
 
     def Insert(self, PosX, PosY, Character):
         NewNode = MatrixNode(PosX, PosY, Character)
-        NodeY = self.Row.getHeader(PosY)
-        NodeX = self.Column.getHeader(PosX)
+        NodeY = self.Rows.getHeader(PosY)
+        NodeX = self.Columns.getHeader(PosX)
 
         if NodeX is None:
             NodeX = NodeHeader(PosX)
-            self.Column.insertNodeHeader(NodeX)
+            self.Columns.insertNodeHeader(NodeX)
 
         if NodeY is None:
             NodeY = NodeHeader(PosY)
-            self.Row.insertNodeHeader(NodeY)
+            self.Rows.insertNodeHeader(NodeY)
 
         if NodeX.access is None:
             NodeX.access = NewNode
@@ -42,7 +43,7 @@ class SparceMatrix():
                 NodeX.access.Character = NewNode.Character
 
             else:
-                tmp = NodeX.access
+                tmp: MatrixNode = NodeX.access
                 while tmp is not None:
                     if NewNode.Ycord < tmp.Ycord:
                         NewNode.up = tmp.up
@@ -75,7 +76,7 @@ class SparceMatrix():
                 NodeY.access.Character = NewNode.Character
 
             else:
-                tmp2 = NodeY.access
+                tmp2: MatrixNode = NodeY.access
                 while tmp2 is not None:
                     if NewNode.Xcord < tmp2.Xcord:
                         NewNode.left = tmp2.left
@@ -96,18 +97,18 @@ class SparceMatrix():
                         else:
                             tmp2 = tmp2.right
                     
-    def RowIteration(self):
-        tmp: NodeHeader = self.Row.First
+    def RowsIteration(self):
+        tmp: NodeHeader = self.Rows.First
         while tmp != None:
             tmp2: MatrixNode = tmp.access
             while tmp2 != None:
-                print('({},{})'.format(tmp2.Xcord,tmp2.Ycord), end='|')
+                print('({},{}) [{}]'.format(tmp2.Xcord,tmp2.Ycord,tmp2.Character), end='|')
                 tmp2 = tmp2.right
             print()
             tmp = tmp.Next
 
-    def ColumnIteration(self):
-        tmp: NodeHeader = self.Column.First
+    def ColumnsIteration(self):
+        tmp: NodeHeader = self.Columns.First
         while tmp != None:
             tmp2: MatrixNode = tmp.access
             while tmp2 != None:
@@ -115,3 +116,13 @@ class SparceMatrix():
                 tmp2 = tmp2.down
             print()
             tmp = tmp.Next
+
+    def FindCord(self, CordX, CordY):
+        try:
+            tmp: MatrixNode = self.Rows.getHeader(CordY).access
+            while tmp != None:
+                if tmp.Xcord == CordX and tmp.Ycord == CordY:
+                    return tmp
+                tmp = tmp.right
+        except:
+            return None
