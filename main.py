@@ -1,27 +1,24 @@
-import os
-from traceback import print_tb
-from typing import final
-import webbrowser
+import os, webbrowser
 from xml.etree import ElementTree as ET
-from SparceMatrix import SparceMatrix
-from Cities import ListCities, NodeCity
+from Cities import ListCities, NodeCity, RobotListP
 
 file = 'Docs/ArchivoPrueba.xml'
 
 CitiesList = ListCities()
+RobotList = RobotListP()
 
 def ElementTree(file):
     try:
         tree = ET.parse(file)
         root = tree.getroot()
         for element in root:
+            Robot = element.findall('robot')
             cities = element.findall('ciudad')
             for City in cities:
                 CityName = City.find('nombre')
                 CityRows = City.findall('fila')
                 CityConvoys = City.findall('unidadMilitar')
                 
-                print(CityName.text, CityName.attrib['filas'], CityName.attrib['columnas'])
                 NewCity = NodeCity(CityName.text, CityName.attrib['filas'], CityName.attrib['columnas'])
                 
                 for Row in CityRows:
@@ -36,7 +33,7 @@ def ElementTree(file):
                         PosX += 1    
                             
                 for Convoy in CityConvoys:
-                    print(Convoy.text)
+
                     PosX = int(Convoy.attrib['columna'])
                     PosY = int(Convoy.attrib['fila'])
                     finded = NewCity.Pattern.FindCord(PosX-1,PosY-1)
@@ -49,9 +46,22 @@ def ElementTree(file):
 
                 CitiesList.InsertCity(NewCity)
 
+            
+            for x in Robot:
+                Robots = x.findall('nombre')
+                for r in Robots:
+                    if r.attrib['tipo'].lower() == 'chapinfighter':
+                        RobotList.InsertRobot(r.text, r.attrib['tipo'], r.attrib['capacidad'])
+                    else:
+                        RobotList.InsertRobot(r.text, r.attrib['tipo'], None)
 
+        
+        
     except:
-        print('No se cargaron los datos correctamente del piso')
+        print('No se cargaron los datos correctamente del Archivo')
+
+
+
     
 def Graphviz(City):
     txt = '''digraph Grafica{
@@ -88,10 +98,8 @@ Nathan Valdez --- 202001568"
         grafo.write(txt)
     result = "Ciudad-{}.png".format(Selected.Name)
     os.system("neato -Tpng " + dot + " -o " + result)
-    # os.system('neato -Tpng ' + dot + ' -o ' + result)
     webbrowser.open(result) 
 
 if __name__ == '__main__':
     ElementTree(file)
-    CitiesList.ShowCities()
-    Graphviz('Atlantis')
+    RobotList.showRobots()
