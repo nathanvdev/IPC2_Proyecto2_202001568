@@ -32,4 +32,12 @@ class ListCities:
             print(tmp.Name)
             tmp.Pattern.RowsIteration()
             tmp = tmp.Next
+    
+    def FindCity(self, City):
+        tmp = self.First
+        while tmp != None:
+            if City == tmp.Name:
+                return tmp
+            tmp = tmp.Next
+        return None
 
