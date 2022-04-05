@@ -1,11 +1,9 @@
+from cgi import print_directory
 from xml.etree import ElementTree as ET
-from SparceMatrix import SparceMatrix
 
 file = 'Docs/ArchivoPrueba.xml'
 
-Lista1 = SparceMatrix()
-
-def ElementTree(file):
+def MiniDom(file):
     try:
         tree = ET.parse(file)
         root = tree.getroot()
@@ -16,25 +14,14 @@ def ElementTree(file):
                 CityRows = City.findall('fila')
                 CityConvoys = City.findall('unidadMilitar')
                 
-                print(CityName.text, CityName.attrib['filas'], CityName.attrib['columnas'])
+                print(CityName.text)
                 for Row in CityRows:
-                    patron = Row.text.replace('"','')
-                    print('>',Row.attrib['numero'], patron)
-                    PosX = 0
-                    PosY = int(Row.attrib['numero'])
-                    PosY = PosY -1
-                    for character in patron:
-                        if character != '*':
-                            Lista1.Insert(PosX,PosY,character)
-                        PosX += 1    
-                            
-
-                
-                print('\n\n\n\n')      
-                
+                    Row.text.replace('"','')
+                    print('>',Row.attrib['numero'], Row.text)
                 for Convoy in CityConvoys:
                     print(Convoy.text)
                 print('===========================================================\n') 
+        
 
     except:
         print('No se cargaron los datos correctamente del piso')
@@ -42,4 +29,4 @@ def ElementTree(file):
 
 
 if __name__ == '__main__':
-    ElementTree(file)
+    MiniDom(file)
