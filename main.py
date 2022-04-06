@@ -1,6 +1,5 @@
 from __future__ import print_function
 import os, webbrowser
-from queue import PriorityQueue
 from tkinter import Tk, filedialog
 from xml.etree import ElementTree as ET
 from Cities import ListCities, NodeCity, NodeRobot, RobotListP
@@ -100,17 +99,17 @@ fontname="times-bold" fontsize="20pt" node [style = filled shape = box height="1
                 Node = Selected.Pattern.FindCord(PosX, PosY)
                 if Node != None:
                     if Node.Character == ' ':
-                        txt +='Node{}_{}[fillcolor= "#FFFFFF" fontcolor = "#FFFFFF" pos="{},-{}!"]\n'.format(PosX, PosY, PosX, PosY)
+                        txt +='"({},{})"[fillcolor= "#FFFFFF" fontcolor = "#000000" pos="{},-{}!"]\n'.format(PosX, PosY, PosX, PosY)
                     elif Node.Character == 'C':
-                        txt += 'Node{}_{}[fillcolor= "#096F9B" fontcolor = "#096F9B" pos="{},-{}!"]\n'.format(PosX, PosY, PosX, PosY)
+                        txt += '"({},{})"[fillcolor= "#096F9B" fontcolor = "#000000" pos="{},-{}!"]\n'.format(PosX, PosY, PosX, PosY)
                     elif Node.Character == 'M':
-                        txt += 'Node{}_{}[fillcolor= "#952D2D" fontcolor = "#952D2D" pos="{},-{}!"]\n'.format(PosX, PosY, PosX, PosY)
+                        txt += '"({},{})"[fillcolor= "#952D2D" fontcolor = "#000000" pos="{},-{}!"]\n'.format(PosX, PosY, PosX, PosY)
                     elif Node.Character == 'R':
-                        txt += 'Node{}_{}[fillcolor= "#FF7400" fontcolor = "#FF7400" pos="{},-{}!"]\n'.format(PosX, PosY, PosX, PosY)
+                        txt += '"({},{})"[fillcolor= "#FF7400" fontcolor = "#000000" pos="{},-{}!"]\n'.format(PosX, PosY, PosX, PosY)
                     elif Node.Character == 'E':
-                        txt += 'Node{}_{}[fillcolor= "#096E06" fontcolor = "#096E06" pos="{},-{}!"]\n'.format(PosX, PosY, PosX, PosY)
+                        txt += '"({},{})"[fillcolor= "#096E06" fontcolor = "#000000" pos="{},-{}!"]\n'.format(PosX, PosY, PosX, PosY)
                 else:
-                    txt += 'Node{}_{}[fillcolor= "#000000" fontcolor = "#000000" pos="{},-{}!"]\n'.format(PosX, PosY, PosX, PosY)
+                    txt += '"({},{})"[fillcolor= "#000000" fontcolor = "#FFFFFF" pos="{},-{}!"]\n'.format(PosX, PosY, PosX, PosY)
 
 
     txt += '\nlabel="'

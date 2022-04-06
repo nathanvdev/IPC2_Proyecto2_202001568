@@ -1,4 +1,4 @@
-from typing import Type
+
 from SparceMatrix import SparceMatrix
 
 
