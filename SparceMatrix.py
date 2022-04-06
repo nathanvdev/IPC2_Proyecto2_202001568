@@ -1,3 +1,6 @@
+from ast import Try
+from email import header
+from queue import PriorityQueue
 from re import T
 from MatrixHeader import NodeHeader, HeaderList
 
@@ -125,4 +128,33 @@ class SparceMatrix():
                     return tmp
                 tmp = tmp.right
         except:
+            print('No se encontro ({},{})'.format(CordX,CordY))
             return None
+
+    def PrintMissions(self, character):
+        try:
+            header = self.Rows.First
+            while header is not None:
+                tmp: MatrixNode = header.access
+                while tmp is not None:
+                    if tmp.Character == character:
+                        print('>> Coordenadas (x,y) ({},{})'.format(tmp.Xcord, tmp.Ycord))
+                    tmp = tmp.right
+                header = header.Next
+        except:
+            pass
+
+
+        
+    def FindMission(self, character):
+        try:
+            header = self.Rows.First
+            while header is not None:
+                tmp: MatrixNode = header.access
+                while tmp is not None:
+                    if tmp.Character == character:
+                        return tmp
+                    tmp = tmp.right
+                header = header.Next
+        except:
+            pass

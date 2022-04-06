@@ -1,3 +1,4 @@
+from typing import Type
 from SparceMatrix import SparceMatrix
 
 
@@ -8,7 +9,8 @@ class NodeCity:
         self.Columns = int(Columns)
         self.Size = self.Rows*self.Columns
         self.Pattern = SparceMatrix()
-        self.Military = 0
+        self.Rescue = 0
+        self.Extract = 0
         self.Next: NodeCity = None
 
 class ListCities:
@@ -17,28 +19,45 @@ class ListCities:
         self.Last: NodeCity = None
         self.Size = 0
     
-    def InsertCity(self, NewCity):
-        self.Size += 1
+    def InsertCity(self, NewCity: NodeCity):
+        
         if self.First is None:
             self.First = NewCity
             self.Last = NewCity
+            self.Size += 1
         else:
-            self.Last.Next = NewCity
-            self.Last = NewCity
+            tmp = self.First
+            while tmp != None:
+                if tmp.Name == NewCity.Name:
+                    tmp.Rows = NewCity.Rows
+                    tmp.Columns = NewCity.Columns
+                    tmp.Size = NewCity.Size
+                    tmp.Pattern = NewCity.Pattern
+                    tmp.Rescue = NewCity.Rescue
+                    tmp.Extract = NewCity.Extract
+                    break
+                elif tmp.Next is None:
+                    self.Last.Next = NewCity
+                    self.Last = NewCity
+                    self.Size += 1
+                else:
+                    tmp = tmp.Next
+
+            
 
     def ShowCities(self):
         tmp = self.First
         while tmp != None:
-            print(tmp.Name)
-            tmp.Pattern.RowsIteration()
+            print('>>>  ',tmp.Name)
             tmp = tmp.Next
     
-    def FindCity(self, City):
+    def FindCity(self, CityName):
         tmp = self.First
         while tmp != None:
-            if City == tmp.Name:
+            if CityName == tmp.Name:
                 return tmp
             tmp = tmp.Next
+       
         return None
 
 
@@ -71,8 +90,21 @@ class RobotListP:
         elif NewRobot.Type == "ChapinRescue":
             self.CountRescue += 1
     
-    def showRobots(self):
+    def showRobots(self, type):
         tmp = self.First
         while tmp.Next != None:
-            print(tmp.Name, '-', tmp.Health, '-', tmp.Type)
+            if tmp.Type == type:
+                if tmp.Type == 'ChapinRescue':
+                    print('>>> Nombre:',tmp.Name)
+                elif tmp.Type == 'ChapinFighter':
+                    print('>>> Nombre:',tmp.Name, 'Vida:', tmp.Health)
             tmp = tmp.Next
+
+    def FindRobot(self, Name):
+        tmp = self.First
+        while tmp != None:
+            if tmp.Name == Name:
+                return tmp
+            tmp = tmp.Next
+        print('No se encontro el robot')
+        return None
